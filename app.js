@@ -60,7 +60,7 @@ function displayCurrentCycle(items, title, message) {
 
   for (key in items) {
     var item = items[key];
-    sayMessage += "**`" + pad(key, 20, '.') + "`**: [" + item.name + "](" + item.url + ") *" + item.remaining + "*\n";
+    sayMessage += "**`" + pad(key, 21, '.') + "`**: [" + item.name + "](" + item.url + ") *" + item.remaining + "*\n";
   }
   var niceMessage = {
     color: 3447003,
