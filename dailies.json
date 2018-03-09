@@ -509,5 +509,32 @@
       "3 Amber Chunks",
       "2 Glowing Hearts"
     ]
+  },
+  "PvE Bonus": {
+    "start": "2018-02-26 15:00:00",
+    "interval": [1, "week"],
+    "items": [
+      "Faction Support",
+      "Zaishen Vanquishing",
+      "Extra Luck",
+      "Elonian Support",
+      "Zaishen Bounty",
+      "Factions Elite",
+      "Northern Support",
+      "Zaishen Mission",
+      "Pantheon"
+    ]
+  },
+  "PvP Bonus": {
+    "start": "2018-02-26 15:00:00",
+    "interval": [1, "week"],
+    "items": [
+      "Codex Arena",
+      "Alliance Battle",
+      "Random Arenas",
+      "Guild Versus Guild",
+      "Competitive Mission",
+      "Heroes' Ascent"
+    ]
   }
 }

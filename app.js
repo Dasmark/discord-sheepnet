@@ -119,7 +119,6 @@ client.on("message", async message => {
   if (command === "dailies" || command === "daily") {
     message.delete().catch(O_o=>{});
     displayCurrentCycle(getDailies(moment()),  "Current dailies",  message);
-    displayCurrentCycle(getWeeklies(moment()), "Current weeklies", message);
   }
 
   if (command === "weeklies" || command === "weekly" || command === "nick") {
