@@ -1,7 +1,9 @@
 FROM node:9.8.0-alpine
 
-RUN npm install discord.js moment pad
+USER node
 
-COPY app.js dailies.json /
+RUN cd $HOME && npm install discord.js moment moment-timezone googleapis@25.* google-auth-library@0.* google-auth-library readline fs moment-round turndown pad --save
 
-CMD [ "node", "/app.js" ]
+COPY app.js dailies.json /home/node/
+
+CMD [ "/usr/local/bin/node", "/home/node/app.js" ]
