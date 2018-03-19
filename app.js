@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const chrono = require('chrono-node');
 var moment = require('moment-timezone');
 const momentRound = require('moment-round');
 var TurndownService = require('turndown');
@@ -10,6 +11,24 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var generalChat;
+
+/**
+ * Fix chrono so when prodiving a weekday, it always returns a day in the future
+ */
+var preferDatesInTheFuture = new chrono.Refiner();
+preferDatesInTheFuture.refine = function(text, results) {
+  results.forEach(function(result) {
+    if (result.start.isCertain('weekday') && !result.start.isCertain('day')) {
+      var determinedDate = moment(result.start.impliedValues.year + '-' + pad(2, result.start.impliedValues.month, '0') + '-' + pad(2, result.start.impliedValues.day, '0'));
+      var todayAtMidnight = moment(moment().format('YYYY-MM-DD'));
+      if ( todayAtMidnight.isAfter(determinedDate) ) {
+        result.start.imply('day', result.start.impliedValues.day + 7)
+      }
+    }
+  });
+  return results;
+};
+chrono.casual.refiners.push(preferDatesInTheFuture);
 
 const dailies = require("./dailies.json");
 
@@ -448,12 +467,28 @@ client.on("message", async message => {
 
   if (command === "dailies" || command === "daily") {
     message.delete().catch(O_o=>{});
-    displayCurrentCycle(getDailies(moment()),  "Current dailies",  message);
+    if ( args.length == 0 ) {
+      displayCurrentCycle(getDailies(moment()),  "Current dailies",  message);
+    } else {
+      var wantedDate = chrono.parseDate(args.join(' ') + ' at ' + moment().format('HH:mm:ss'));
+      if ( moment.utc(wantedDate).isValid() ) {
+        wantedDate = moment.utc(wantedDate);
+        displayCurrentCycle(getDailies(wantedDate),  "Dailies for " + moment.tz(wantedDate, 'Europe/Berlin').format('dddd, MMMM D, YYYY @ HH:mm:ss z'),  message);
+      }
+    }
   }
 
   if (command === "weeklies" || command === "weekly" || command === "nick") {
     message.delete().catch(O_o=>{});
-    displayCurrentCycle(getWeeklies(moment()), "Current weeklies", message);
+    if ( args.length == 0 ) {
+      displayCurrentCycle(getWeeklies(moment()), "Current weeklies", message);
+    } else {
+      var wantedDate = chrono.parseDate(args.join(' ') + ' at ' + moment().format('HH:mm:ss'));
+      if ( moment.utc(wantedDate).isValid() ) {
+        wantedDate = moment.utc(wantedDate);
+        displayCurrentCycle(getWeeklies(wantedDate),  "Weeklies for " + moment.tz(wantedDate, 'Europe/Berlin').format('dddd, MMMM D, YYYY @ HH:mm:ss z'),  message);
+      }
+    }
   }
 
 });
