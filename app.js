@@ -169,7 +169,7 @@ function filterOutEventsFromThePast(events) {
 }
 
 function getNextOccurrenceForReccuringEvent(event) {
-  nextOccurrence = moment.utc(event.start.dateTime || event.start.date);
+  var nextOccurrence = moment.tz(event.start.dateTime || event.start.date, event.start.timeZone);
   if ( event.recurrence.length != 1 ) {
     return nextOccurrence;
   }
@@ -191,7 +191,7 @@ function getOnlyTheNextEvents(events) {
   var nextEvents = [];
   var eventLookup = {};
   events.forEach(function(event) {
-    var nextOccurrence = moment.utc(event.start.dateTime || event.start.date);
+    var nextOccurrence = moment.tz(event.start.dateTime || event.start.date, event.start.timeZone);
     if ( 'recurrence' in event ) {
       nextOccurrence = getNextOccurrenceForReccuringEvent(event);
     }
