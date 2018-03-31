@@ -50,6 +50,14 @@ const reminders = [
     },
   },
   {
+    "unit":    "hour",
+    "amount":  1,
+    "message": function(event) {
+      return util.format("In 1 hour it's time for **%s**. Do not forget!",
+                         event.summary);
+    },
+  },
+  {
     "unit":    "hours",
     "amount":  8,
     "message": function(event) {
