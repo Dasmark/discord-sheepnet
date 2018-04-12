@@ -198,12 +198,14 @@ function getNextOccurrenceForReccuringEvent(event) {
 function getOnlyTheNextEvents(events) {
   var nextEvents = [];
   var eventLookup = {};
+  var recEventThings = [];
   events.forEach(function(event) {
+    // var nextOccurrence = moment.utc(event.start.dateTime || event.start.date);
     var nextOccurrence = moment.tz(event.start.dateTime || event.start.date, event.start.timeZone);
     if ( 'recurrence' in event ) {
       nextOccurrence = getNextOccurrenceForReccuringEvent(event);
     }
-    mainID = event.recurringEventId || event.id;
+    mainID = event.recurringEventId || event.id.replace(/_.*/, '');
     if ( !(mainID in eventLookup) ) {
       eventLookup[mainID] = {};
     }
@@ -213,10 +215,18 @@ function getOnlyTheNextEvents(events) {
     }
   });
   for (var mainID in eventLookup) {
+    recEventThings = [];
     for (nextOccurrence in eventLookup[mainID]) {
-      nextEvents.push(eventLookup[mainID][nextOccurrence]);
+      recEventThings.push(eventLookup[mainID][nextOccurrence]);
     }
+    recEventThings.sort(function(event1, event2) {
+      return event1.start - event2.start;
+    });
+    nextEvents.push(recEventThings[0]);
   }
+  nextEvents.sort(function(event1, event2) {
+    return event1.start - event2.start;
+  });
   return nextEvents;
 }
 
