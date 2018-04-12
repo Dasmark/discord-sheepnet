@@ -237,7 +237,7 @@ function getNiceRecurrence(recurrence) {
     return null;
   }
   var matchingElements = recurrence[0].match(/RRULE:FREQ=([A-Z]*);BYDAY=([A-Z]*)/);
-  if ( matchingElements.length == 0 ) {
+  if ( matchingElements == null || matchingElements.length == 0 ) {
     return null;
   }
   return matchingElements[1].toLocaleLowerCase() + ', every ' + shortWeekdaysToLong[matchingElements[2]];
