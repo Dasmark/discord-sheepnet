@@ -236,7 +236,7 @@ function getNiceRecurrence(recurrence) {
   if ( recurrence.length != 1 ) {
     return null;
   }
-  var matchingElements = recurrence[0].match(/RRULE:FREQ=([A-Z]*);BYDAY=([A-Z]*)/);
+  var matchingElements = recurrence[0].match(/RRULE:FREQ=([A-Z]*);.*?BYDAY=([A-Z]*)/);
   if ( matchingElements == null || matchingElements.length == 0 ) {
     return null;
   }
