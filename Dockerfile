@@ -9,6 +9,6 @@ USER node
 
 RUN cd $HOME && npm install discord.js moment moment-timezone chrono-node googleapis@25.* google-auth-library@0.* readline fs moment-round turndown pad --save
 
-COPY app.js dailies.json /home/node/
+COPY app.js lib.js dailies.json /home/node/
 
 CMD [ "/usr/local/bin/node", "/home/node/app.js" ]
