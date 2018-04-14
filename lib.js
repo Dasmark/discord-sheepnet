@@ -30,11 +30,12 @@ preferDatesInTheFuture.refine = function(text, results) {
 chrono.casual.refiners.push(preferDatesInTheFuture);
 
 module.exports = function() {
+  this.chrono = chrono;
   this.dailies = require("./dailies.json");
 
   this.config = {
     "token":    process.env.DISCORD_TOKEN,
-    "prefix":   process.env.DISCORD_PREFIX,
+    "prefix":   process.env.DISCORD_PREFIX || '',
   };
 
   this.reminders = [
