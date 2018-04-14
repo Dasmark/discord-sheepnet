@@ -2,11 +2,22 @@ var sheepnet = require('./lib.js')();
 var readline = require('readline');
 var moment = require('moment-timezone');
 
+var mdToAnsi = function(line) {
+  line = line.replace(/`(.*?)`/g, '$1');
+  line = line.replace(/\*\*(.*?)\*\*/g, '[1m$1[0m');
+  line = line.replace(/\*(.*?)\*/g, '[3m$1[0m');
+  return line;
+}
+
 var consSend = function(message) {
   if ( "embed" in message ) {
     message.embed.fields.forEach(function(msg) {
       console.log("[34;1m" + msg.name + "[0m");
-      console.log('  ' + msg.value.trim().split(/\n/).join("\n  "));
+      var printOut = msg.value.trim().split(/\n/).map(function(line) {
+        line = mdToAnsi(line);
+        return '  ' + line;
+      }).join("\n");
+      console.log(printOut);
     });
     console.log();
   } else {
